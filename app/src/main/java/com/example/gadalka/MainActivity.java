@@ -2,15 +2,23 @@ package com.example.gadalka;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -35,14 +43,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        @SuppressLint("ResourceType") View v = findViewById(R.id.listViewCards);
-        GetTextFromSql(v);
+        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        findViewById(R.id.imageMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
+
+        NavController navController = Navigation.findNavController(this, R.id.NavHostFragment);
+        NavigationUI.setupWithNavController(navigationView, navController);
 
     }
-
+/*
     public void GetTextFromSql(View v) {
+
+        Generator generator = new Generator(3);
+        String strCatdsId =  generator.generateCard();
+
         data = new ArrayList<Card>();
-        AddItemToList(v, data, "Select * From Cards");
+        AddItemToList(v, data, "Select * From Cards Where id_card in (" + strCatdsId + ") ");
         lstView = findViewById(R.id.listViewCards);
         SetAdapter(data);
     }
@@ -80,5 +103,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+ */
 }
 

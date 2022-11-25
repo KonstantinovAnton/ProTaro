@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/menuAllCards">
+    <fragment
+        android:id="@+id/menuAllCards"
+        android:name="com.example.gadalka.AllCardsFragment"
+        android:label="fragment_all_cards"
+        tools:layout="@layout/fragment_all_cards" />
+    <fragment
+        android:id="@+id/menuCardOfDay"
+        android:name="com.example.gadalka.CardOfDayFragment"
+        android:label="fragment_card_of_day"
+        tools:layout="@layout/fragment_card_of_day" />
+</navigation>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuAllCards"
+        android:title="Все карты"></item>
+    <item
+        android:id="@+id/menuCardOfDay"
+        android:title="Карта дня"></item>
+    <item
+        android:id="@+id/menuPrediction3"
+        android:title="Расклад на три карты"></item>
+</menu>
