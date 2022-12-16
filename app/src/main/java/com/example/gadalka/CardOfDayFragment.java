@@ -1,5 +1,6 @@
 package com.example.gadalka;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,10 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -44,6 +51,7 @@ public class CardOfDayFragment extends Fragment {
 
     View fragmentView;
     ImageView imageViewCard;
+    ImageView imageViewRubashka;
     ListView listViewAllCards;
     Card card;
 
@@ -84,13 +92,44 @@ public class CardOfDayFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.fragment_card_of_day, container, false);
         imageViewCard = fragmentView.findViewById(R.id.imageViewCard);
+        Button btn = fragmentView.findViewById(R.id.btn);
+
+        imageViewRubashka = fragmentView.findViewById(R.id.imageViewRubashka);
 
         GetTextFromSql(fragmentView); // Заполнение экземпляра класса Card - card
+
+        EasyFlipView easyFlipView = fragmentView.findViewById(R.id.logicFlip);
+
+
+       btn.setOnClickListener(new View.OnClickListener()
+       {
+            @Override
+            public void onClick(View v)
+            {
+                btn.setText("dasd");
+                easyFlipView.setFlipOnTouch(false);
+
+                imageViewCard.startAnimation(AnimationUtils.loadAnimation(
+                            getActivity().getApplicationContext(),
+                            R.anim.zoom));
+
+
+            }
+        });
+
+
+
 
 
 
         return fragmentView;
     }
+
+    public void pop(View v){
+        Button btn = fragmentView.findViewById(R.id.btn);
+        btn.setText("asdas");
+    }
+
 
     public void GetTextFromSql(View v) {
 

@@ -41,5 +41,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
+    // https://github.com/wajahatkarim3/EasyFlipView
     implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 }

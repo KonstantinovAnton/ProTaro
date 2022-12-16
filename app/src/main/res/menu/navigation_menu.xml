@@ -7,6 +7,6 @@
         android:id="@+id/menuCardOfDay"
         android:title="Карта дня"></item>
     <item
-        android:id="@+id/menuPrediction3"
+        android:id="@+id/menuCardRasklad3"
         android:title="Расклад на три карты"></item>
 </menu>

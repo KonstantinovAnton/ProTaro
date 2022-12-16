@@ -14,4 +14,9 @@
         android:name="com.example.gadalka.CardOfDayFragment"
         android:label="fragment_card_of_day"
         tools:layout="@layout/fragment_card_of_day" />
+    <fragment
+        android:id="@+id/menuCardRasklad3"
+        android:name="com.example.gadalka.CardRasklad3"
+        android:label="fragment_card_rasklad3"
+        tools:layout="@layout/fragment_card_rasklad3" />
 </navigation>
