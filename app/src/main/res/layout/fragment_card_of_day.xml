@@ -40,9 +40,8 @@
             android:layout_gravity="center"
             android:onClick="voidRubb"
             android:src="@drawable/rubashka" />
-
-
     </com.wajahatkarim3.easyflipview.EasyFlipView>
+
 
 
     <Button

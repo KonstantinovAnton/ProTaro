@@ -8,15 +8,18 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.util.zip.Inflater;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,26 +73,130 @@ public class CardRasklad3 extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    ImageView card1;
+    ImageView card2;
+    ImageView card3;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         fragmentView = inflater.inflate(R.layout.fragment_card_rasklad3, container, false);
 
         Button btn = fragmentView.findViewById(R.id.button);
-        ImageView im = fragmentView.findViewById(R.id.cc);
+        card1 = fragmentView.findViewById(R.id.card1);
+        ImageView rub1 = fragmentView.findViewById(R.id.rub1);
+        card2 = fragmentView.findViewById(R.id.card2);
+        ImageView rub2 = fragmentView.findViewById(R.id.rub2);
+        card3 = fragmentView.findViewById(R.id.card3);
+        ImageView rub3 = fragmentView.findViewById(R.id.rub3);
 
-        ImageView im1 = fragmentView.findViewById(R.id.cc1);
+        Button btnGetAnswer = fragmentView.findViewById(R.id.buttonGetAnswer);
+        btnGetAnswer.setVisibility(View.INVISIBLE);
+
+
+
+        card1.setRotationY(90);
+        card2.setRotationY(90);
+        card3.setRotationY(90);
+
+        GetTextFromSql(fragmentView);
+
+        ImageView imageCaloda = fragmentView.findViewById(R.id.calodaTaro);
+        ImageView imageCaloda2 = fragmentView.findViewById(R.id.calodaTaro2);
+
         //im.animate().rotationYBy(180);
 
-        im1.setRotationY(90);
-
-        im1.setOnClickListener(new View.OnClickListener() {
+        imageCaloda2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    btn.setBackgroundColor(Color.RED);
+                    btn.setBackgroundColor(Color.GREEN);
+                btnGetAnswer.setVisibility(View.VISIBLE);
+
+                rub1.setZ(3);
+                rub2.setZ(2);
+                rub3.setZ(1);
+
+                card1.setZ(4);
+                card2.setZ(5);
+                card3.setZ(6);
+
+                AnimatorSet dd  = new AnimatorSet();
+
+                Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                anim.setTarget(rub1);
+
+                Animator flip = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
+                flip.setTarget(rub1);
+
+                Animator flipBack = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
+                flipBack.setTarget(card1);
+
+                dd.play(anim).with(flip).before(flipBack);
+                dd.start();
+
+                AnimatorSet dd2  = new AnimatorSet();
+
+                Animator anim2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                anim2.setTarget(card1);
+                Animator anim3 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                anim3.setTarget(card2);
+                Animator anim4 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                anim4.setTarget(card3);
+
+                dd2.playTogether(anim2, anim3, anim4);
+                dd2.start();
+
+                AnimatorSet dd3  = new AnimatorSet();
+                Animator layTable = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.lay_table_left);
+                layTable.setTarget(card1);
+                dd3.play(layTable).after(2000);
+                dd3.start();
+
+
+               AnimatorSet animCard2  = new AnimatorSet();
+
+                Animator animC2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                animC2.setTarget(rub2);
+
+                Animator flipC2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
+                flipC2.setTarget(rub2);
+
+                Animator flipBackC2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
+                flipBackC2.setTarget(card2);
+
+                animCard2.play(animC2).with(flipC2).before(flipBackC2).after(3000);
+                animCard2.start();
+
+                AnimatorSet animCard2Less  = new AnimatorSet();
+                Animator layTable2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.lay_table_right);
+                layTable2.setTarget(card2);
+                animCard2Less.play(layTable2).after(5000);
+                animCard2Less.start();
+
+                AnimatorSet animCard3  = new AnimatorSet();
+
+                Animator animC3 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
+                animC3.setTarget(rub3);
+
+                Animator flipC3 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
+                flipC3.setTarget(rub3);
+
+                Animator flipBackC3 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
+                flipBackC3.setTarget(card3);
+
+                animCard3.play(animC3).with(flipC3).before(flipBackC3).after(6000);
+                animCard3.start();
+
+                AnimatorSet animCard3Less  = new AnimatorSet();
+                Animator layTable3 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.lay_table_center);
+                layTable3.setTarget(card3);
+                animCard3Less.play(layTable3).after(7000);
+                animCard3Less.start();
+
             }
+
         });
 
 
@@ -98,27 +205,43 @@ public class CardRasklad3 extends Fragment {
             public void onClick(View v) {
                     btn.setBackgroundColor(Color.BLUE);
 
-
-
                 AnimatorSet dd  = new AnimatorSet();
 
-                Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
-                anim.setTarget(im);
+              Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
+                anim.setTarget(card1);
 
                Animator anim1 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
-                anim1.setTarget(im1);
+                anim1.setTarget(rub1);
 
                 Animator anim2 = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.less);
-                anim2.setTarget(im1);
+                anim2.setTarget(rub1);
+
+                Animator tasovkaRight = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.tasovka_right);
+                tasovkaRight.setTarget(imageCaloda2);
+
+                Animator tasovkaLeft = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.tasovka_left);
+                tasovkaLeft.setTarget(imageCaloda);
 
 
 
-                dd.playSequentially(anim, anim1, anim2);
+                //dd.playTogether(tasovkaRight, tasovkaLeft);
 
+                dd.playTogether(tasovkaRight, tasovkaLeft);
                 dd.start();
+
+                Animator tasovkaLeftObr = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.tasovka_left_obr);
+                tasovkaLeftObr.setTarget(imageCaloda2);
+                Animator tasovkaRightObr = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.tasovka_right_obr);
+                tasovkaRightObr.setTarget(imageCaloda);
+
+                AnimatorSet dd2  = new AnimatorSet();
+                dd2.play(tasovkaRightObr).with(tasovkaLeftObr).after(1000);
+                dd2.start();
+
 
             }
         });
+
 
         return fragmentView;
     }
@@ -131,5 +254,44 @@ public class CardRasklad3 extends Fragment {
         //set.start();
 
     }
+
+    List<Card> data;
+
+    public void GetTextFromSql(View v) {
+
+        data = new ArrayList<Card>();
+        AddItemToList(v, data, "Select * From Cards where id_card = 1");
+        ImgCoder m = new ImgCoder(getActivity().getApplicationContext()); // Добавление конвертера для img
+        card1.setImageBitmap(m.getUserImage(card.getImage())); // Установка значения
+        card2.setImageBitmap(m.getUserImage(card.getImage()));
+        card3.setImageBitmap(m.getUserImage(card.getImage()));
+
+    }
+    Connection connection;
+    Card card;
+    public void AddItemToList(View v, List<Card> list, String s) {
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connection = connectionHelper.connectionClass();
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(s);
+                while (resultSet.next()) {
+                    card = new Card
+                            (
+                                    Integer.parseInt(resultSet.getString("id_card")),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("description"),
+                                    resultSet.getString("image")
+                            );
+                    list.add(card);
+                }
+                connection.close();
+            }
+        } catch (Exception ex) {
+            Log.e(ex.toString(), ex.getMessage());
+        }
+    }
+
 
 }
