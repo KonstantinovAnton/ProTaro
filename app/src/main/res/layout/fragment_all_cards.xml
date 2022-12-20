@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +10,35 @@
     android:layout_height="match_parent"
     android:textSize="40dp"
     >
-
 </ListView>
 
+    <FrameLayout
+        android:id="@+id/frameCardInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        >
+        <TextView
+            android:id="@+id/textViewCardIndo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:scrollbars="vertical"
+            android:layout_margin="30dp"
+            >
+        </TextView>
+        <Button
+            android:id="@+id/buttonBackToList"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:text="Вернуться"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10dp"
+            >
 
-</LinearLayout>
+        </Button>
+    </FrameLayout>
+
+
+
+</FrameLayout>

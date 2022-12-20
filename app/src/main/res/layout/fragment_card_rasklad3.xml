@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".CardRasklad3">
 
-
-
-
-
-
-
     <ImageView
         android:id="@+id/calodaTaro"
         android:layout_gravity="center|bottom"
@@ -92,6 +86,34 @@
         ></ImageView>
 
 
+    <FrameLayout
+        android:id="@+id/frameMean"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        >
+
+
+        <TextView
+            android:textColor="@color/white"
+       android:id="@+id/textViewMean"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:scrollbars="vertical"
+            >
+   </TextView>
+
+
+    </FrameLayout>
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center|bottom"
+        android:text="Вернуться"
+        ></Button>
+
 
     <Button
         android:id="@+id/button"
@@ -106,7 +128,8 @@
         android:layout_width="230dp"
         android:layout_height="50dp"
         android:layout_marginTop="600dp"
-        android:text="Узнать значение" />
+        android:text="Узнать значение"
+        />
 
 
 

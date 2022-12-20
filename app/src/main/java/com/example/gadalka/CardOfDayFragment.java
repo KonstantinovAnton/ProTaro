@@ -1,10 +1,14 @@
 package com.example.gadalka;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +16,12 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wajahatkarim3.easyflipview.EasyFlipView;
@@ -45,15 +51,15 @@ public class CardOfDayFragment extends Fragment {
     Connection connection;
     Spinner spinner;
     List<Card> data;
-    ListView lstView;
-    AdapterCard adapterBooks;
-    EditText etSearch;
+
 
     View fragmentView;
-    ImageView imageViewCard;
     ImageView imageViewRubashka;
-    ListView listViewAllCards;
+    ImageView imageViewCard;
     Card card;
+    int idCard;
+    FrameLayout frameMean;
+    TextView textViewMean;
 
     public CardOfDayFragment() {
         // Required empty public constructor
@@ -91,52 +97,113 @@ public class CardOfDayFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_card_of_day, container, false);
-        imageViewCard = fragmentView.findViewById(R.id.imageViewCard);
-        Button btn = fragmentView.findViewById(R.id.btn);
+        imageViewRubashka = fragmentView.findViewById(R.id.rubashkaOfDayCard);
+        imageViewCard = fragmentView.findViewById(R.id.DayCard);
+        imageViewCard.setRotationY(90);
 
-        imageViewRubashka = fragmentView.findViewById(R.id.imageViewRubashka);
+        frameMean = fragmentView.findViewById(R.id.frameCardOdFay);
+        textViewMean = fragmentView.findViewById(R.id.textViewCardOfDay);
+        textViewMean.setMovementMethod(new ScrollingMovementMethod());
 
-        GetTextFromSql(fragmentView); // Заполнение экземпляра класса Card - card
+        frameMean.setAlpha(0);
+        frameMean.setVisibility(View.INVISIBLE);
 
-        EasyFlipView easyFlipView = fragmentView.findViewById(R.id.logicFlip);
+        Button buttonOk = fragmentView.findViewById(R.id.buttonOk);
+        buttonOk.setAlpha(0);
+        buttonOk.setVisibility(View.INVISIBLE);
 
+        while(true) {
+            try {
+                Generator generator = new Generator(1);
+                idCard = generator.generateDayCard();
+                GetTextFromSql(fragmentView);
+                break;
+            } catch (Exception ex) {
 
-       btn.setOnClickListener(new View.OnClickListener()
-       {
+            }
+        }
+
+        buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                btn.setText("dasd");
-                easyFlipView.setFlipOnTouch(false);
+            public void onClick(View v) {
 
-                imageViewCard.startAnimation(AnimationUtils.loadAnimation(
-                            getActivity().getApplicationContext(),
-                            R.anim.zoom));
+                frameMean.setVisibility(View.INVISIBLE);
+                frameMean.setAlpha(0);
 
+                buttonOk.setVisibility(View.INVISIBLE);
+                buttonOk.setAlpha(0);
+
+            }
+        });
+
+        imageViewCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonOk.setVisibility(View.VISIBLE);
+
+                frameMean.setVisibility(View.VISIBLE);
+
+                AnimatorSet dd1 = new AnimatorSet();
+
+                Animator intro = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro);
+                intro.setTarget(frameMean);
+
+                Animator introButton = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
+                introButton.setTarget(buttonOk);
+
+                dd1.play(intro).with(introButton);
+                dd1.start();
+            }
+        });
+
+        // Перевернуть карту
+        imageViewRubashka.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                buttonOk.setVisibility(View.VISIBLE);
+
+                frameMean.setVisibility(View.VISIBLE);
+
+                AnimatorSet dd = new AnimatorSet();
+
+                Animator flip = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.flip);
+                flip.setTarget(imageViewRubashka);
+
+                Animator flipBack = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
+                flipBack.setTarget(imageViewCard);
+
+
+                dd.play(flip).before(flipBack);
+                dd.start();
+
+                AnimatorSet dd1 = new AnimatorSet();
+
+                Animator intro = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro);
+                intro.setTarget(frameMean);
+
+                Animator introButton = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
+                introButton.setTarget(buttonOk);
+
+                dd1.play(intro).with(introButton).after(2000);
+                dd1.start();
 
             }
         });
 
 
-
-
-
-
         return fragmentView;
-    }
-
-    public void pop(View v){
-        Button btn = fragmentView.findViewById(R.id.btn);
-        btn.setText("asdas");
     }
 
 
     public void GetTextFromSql(View v) {
 
         data = new ArrayList<Card>();
-        AddItemToList(v, data, "Select * From Cards where id_card = 1");
+        AddItemToList(v, data, "Select * From Cards where id_card = " + idCard);
         ImgCoder m = new ImgCoder(getActivity().getApplicationContext()); // Добавление конвертера для img
         imageViewCard.setImageBitmap(m.getUserImage(card.getImage())); // Установка значения
+        textViewMean.setText(data.get(0).getDescription());
+
     }
 
     public void AddItemToList(View v, List<Card> list, String s) {

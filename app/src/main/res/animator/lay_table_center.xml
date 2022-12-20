@@ -17,5 +17,10 @@
         android:propertyName="TranslationY"
         android:duration="1000"
         />
+    <objectAnimator
+        android:valueTo="-25"
+        android:propertyName="TranslationX"
+        android:duration="1000"
+        />
 
 </set>

@@ -1,19 +1,27 @@
 package com.example.gadalka;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -49,13 +57,17 @@ public class AllCardsFragment extends Fragment {
     Connection connection;
     Spinner spinner;
     List<Card> data;
-    ListView lstView;
-    AdapterCard adapterBooks;
-    EditText etSearch;
 
     View fragmentView;
     ListView listViewAllCards;
-    String[] name = new String[]{"India", "Somali", "Russia"};
+
+    FrameLayout frame;
+    TextView textCard;
+    Button btnBack;
+
+
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -83,10 +95,6 @@ public class AllCardsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
 
-
-
-
-
             //lstView.findViewById(R.id.listViewAllCards);
             //GetTextFromSql(lstView);
 
@@ -100,6 +108,53 @@ public class AllCardsFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_all_cards, container, false);
         listViewAllCards = fragmentView.findViewById(R.id.listViewAllCards);
 
+        frame = fragmentView.findViewById(R.id.frameCardInfo);
+
+        frame.setVisibility(View.INVISIBLE);
+        frame.setAlpha(0);
+
+        textCard = fragmentView.findViewById(R.id.textViewCardIndo);
+        textCard.setMovementMethod(new ScrollingMovementMethod());
+
+
+        btnBack = fragmentView.findViewById(R.id.buttonBackToList);
+        btnBack.setVisibility(View.INVISIBLE);
+        btnBack.setAlpha(0);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frame.setVisibility(View.INVISIBLE);
+                frame.setAlpha(0);
+
+                btnBack.setVisibility(View.INVISIBLE);
+                btnBack.setAlpha(0);
+            }
+        });
+
+        listViewAllCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                frame.setVisibility(View.VISIBLE);
+                btnBack.setVisibility(View.VISIBLE);
+
+                textCard.setText(data.get(position).getDescription());
+
+                AnimatorSet dd1 = new AnimatorSet();
+
+                Animator intro = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro);
+                intro.setTarget(frame);
+
+                Animator introButton = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
+                introButton.setTarget(btnBack);
+
+                dd1.play(intro).with(introButton);
+                dd1.start();
+
+            }
+        });
+
         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, name);
         //listViewAllCards.setAdapter(adapter);
 
@@ -110,9 +165,6 @@ public class AllCardsFragment extends Fragment {
     }
 
     public void GetTextFromSql(View v) {
-
-        //Generator generator = new Generator(3);
-        //String strCatdsId =  generator.generateCard();
 
         data = new ArrayList<Card>();
         AddItemToList(v, data, "Select * From Cards");
