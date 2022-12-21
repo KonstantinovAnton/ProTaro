@@ -264,8 +264,6 @@ public class CardRasklad3 extends Fragment {
 
                 }
 
-
-
             }
 
         });
@@ -290,11 +288,12 @@ public class CardRasklad3 extends Fragment {
                 card3.setX(230);
                 card3.setY(750);
                 rub1.setX(230);
-                rub1.setY(730);
+                rub1.setY(810);
                 rub2.setX(230);
-                rub2.setY(730);
+                rub2.setY(810);
                 rub3.setX(230);
-                rub3.setY(730);
+                rub3.setY(810);
+
 
                 card1.setRotationY(90);
                 card2.setRotationY(90);
@@ -330,6 +329,15 @@ public class CardRasklad3 extends Fragment {
                 AnimatorSet dd2  = new AnimatorSet();
                 dd2.play(tasovkaRightObr).with(tasovkaLeftObr).after(1000);
                 dd2.start();
+
+                AnimatorSet dd3 = new AnimatorSet();
+                Animator setTop = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.set_top_z);
+                setTop.setTarget(imageCaloda2);
+
+                dd3.play(setTop).after(2000);
+                dd3.start();
+
+
 
             }
         });

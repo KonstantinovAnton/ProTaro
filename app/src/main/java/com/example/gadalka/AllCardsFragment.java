@@ -138,18 +138,23 @@ public class AllCardsFragment extends Fragment {
 
                 frame.setVisibility(View.VISIBLE);
                 btnBack.setVisibility(View.VISIBLE);
+                btnBack.setAlpha(0);
 
-                textCard.setText(data.get(position).getDescription());
+
+
+                textCard.setText(data.get(position).getNameCard()+ "\n\n"+data.get(position).getDescription());
 
                 AnimatorSet dd1 = new AnimatorSet();
-
-                Animator intro = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro);
-                intro.setTarget(frame);
 
                 Animator introButton = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
                 introButton.setTarget(btnBack);
 
-                dd1.play(intro).with(introButton);
+                Animator intro = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro);
+                intro.setTarget(frame);
+
+
+
+                dd1.play(introButton).with(intro);
                 dd1.start();
 
             }

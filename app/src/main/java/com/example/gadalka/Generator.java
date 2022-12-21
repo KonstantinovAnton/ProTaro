@@ -17,7 +17,7 @@ public class Generator {
         Calendar cal = Calendar.getInstance();
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-        int max = 6;
+        int max = 22;
 
         while(dayOfMonth > max)
 
@@ -34,7 +34,7 @@ public class Generator {
         int flag;
 
         int min = 1;
-        int max = 6;
+        int max = 22;
 
         int x = (int)(Math.random()*((max-min)+1))+min;
 

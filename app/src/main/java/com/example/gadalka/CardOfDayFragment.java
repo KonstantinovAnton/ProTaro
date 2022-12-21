@@ -108,6 +108,9 @@ public class CardOfDayFragment extends Fragment {
         frameMean.setAlpha(0);
         frameMean.setVisibility(View.INVISIBLE);
 
+        TextView textViewNameCardDay = fragmentView.findViewById(R.id.textViewNameCardDay);
+        textViewNameCardDay.setAlpha(0);
+
         Button buttonOk = fragmentView.findViewById(R.id.buttonOk);
         buttonOk.setAlpha(0);
         buttonOk.setVisibility(View.INVISIBLE);
@@ -117,6 +120,9 @@ public class CardOfDayFragment extends Fragment {
                 Generator generator = new Generator(1);
                 idCard = generator.generateDayCard();
                 GetTextFromSql(fragmentView);
+                textViewNameCardDay.setText(data.get(0).getNameCard());
+
+
                 break;
             } catch (Exception ex) {
 
@@ -173,8 +179,13 @@ public class CardOfDayFragment extends Fragment {
                 Animator flipBack = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.back_flip);
                 flipBack.setTarget(imageViewCard);
 
+                Animator introName = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
+                introName.setTarget(textViewNameCardDay);
 
-                dd.play(flip).before(flipBack);
+
+
+               // dd.play(flip).before(flipBack).with(introName);
+                dd.play(flipBack).after(flip).before(introName);
                 dd.start();
 
                 AnimatorSet dd1 = new AnimatorSet();
@@ -185,7 +196,7 @@ public class CardOfDayFragment extends Fragment {
                 Animator introButton = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.intro_full);
                 introButton.setTarget(buttonOk);
 
-                dd1.play(intro).with(introButton).after(2000);
+                dd1.play(intro).with(introButton).after(3000);
                 dd1.start();
 
             }

@@ -13,7 +13,7 @@
         android:duration="1000"
         />
     <objectAnimator
-        android:valueTo="-500"
+        android:valueTo="-300dp"
         android:propertyName="TranslationY"
         android:duration="1000"
         />
